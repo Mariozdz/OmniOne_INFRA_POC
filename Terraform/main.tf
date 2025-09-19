@@ -29,11 +29,6 @@ provider "kubernetes" {
   
 }
 
-variable "my_ip" {
-  description = "Tu IP pública para acceder al API server"
-  default     = "X.X.X.X/32" # reemplaza con tu IP pública
-}
-
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-aks"
@@ -112,7 +107,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 }
 
-
 ## New
 resource "kubernetes_namespace" "myapp" {
   depends_on = [ azurerm_kubernetes_cluster.aks ]
@@ -121,48 +115,3 @@ resource "kubernetes_namespace" "myapp" {
   }
 }
 
-# resource "kubernetes_persistent_volume_claim" "mysql" {
-#   depends_on = [ azurerm_kubernetes_cluster.aks ]
-#   metadata {
-#     name      = "mysql-pvc"
-#     namespace = kubernetes_namespace.myapp.metadata[0].name
-#   }
-
-#   spec {
-#     access_modes = ["ReadWriteOnce"]
-#     resources {
-#       requests = {
-#         storage = "1Gi"
-#       }
-#     }
-#     storage_class_name = "default"
-#   }
-# }
-
-resource "kubernetes_secret" "db_root_password" {
-  depends_on = [ azurerm_kubernetes_cluster.aks ]
-  metadata {
-    name      = "db-root-password"
-    namespace = kubernetes_namespace.myapp.metadata[0].name
-  }
-
-  data = {
-    db_root_password = base64encode("MiRootPass123")  # valor de la contraseña
-  }
-
-  type = "Opaque"
-}
-
-resource "kubernetes_secret" "db_password" {
-  depends_on = [ azurerm_kubernetes_cluster.aks ]
-  metadata {
-    name      = "db-password"
-    namespace = kubernetes_namespace.myapp.metadata[0].name
-  }
-
-  data = {
-    db_password = base64encode("MiUserPass123")  # valor de la contraseña
-  }
-
-  type = "Opaque"
-}
