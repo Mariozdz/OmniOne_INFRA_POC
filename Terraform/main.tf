@@ -29,6 +29,11 @@ provider "kubernetes" {
   
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = var.resource_group_name
+  location = var.location
+}
+
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-aks"
@@ -63,7 +68,7 @@ resource "azurerm_nat_gateway" "nat" {
 
 }
 
-resource "azurerm_nat_gateway_public_ip_association" "example" {
+resource "azurerm_nat_gateway_public_ip_association" "nat_gateway_assoc" {
   nat_gateway_id       = azurerm_nat_gateway.nat.id
   public_ip_address_id = azurerm_public_ip.nat_ip.id
 }
@@ -101,17 +106,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   api_server_access_profile {
-    authorized_ip_ranges   = ["0.0.0.0/0"]  # permite tu IP pública
+    authorized_ip_ranges   = [var.my_public_ip]  # permite tu IP pública
     
   }
 
 }
-
-## New
-resource "kubernetes_namespace" "myapp" {
-  depends_on = [ azurerm_kubernetes_cluster.aks ]
-  metadata {
-    name = "myapp"
-  }
-}
-

@@ -20,3 +20,7 @@ variable "aks_cluster_name" {
   default = "aks-argocd-cluster"
 }
 
+variable "my_public_ip" {
+  type    = string
+  default = "0.0.0.0/0"
+}
