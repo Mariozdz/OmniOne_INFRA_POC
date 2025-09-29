@@ -85,7 +85,6 @@ resource "azurerm_application_gateway" "appgw" {
 #     }
 #   }
 
-#   # Puedes agregar reglas personalizadas si quieres
 # #   custom_rules {
 # #     name      = "AllowExample"
 # #     priority  = 1

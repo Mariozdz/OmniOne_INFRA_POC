@@ -24,3 +24,14 @@ variable "key_path" {
   description = "Azure Subscription ID"
   type        = string
 }
+
+variable "was_app_quantity" {
+  description = "was app instances"
+  type = number
+  default = 1
+}
+
+variable "db_pass" {
+  description = "Postgress DB pass"
+  type = string
+}
