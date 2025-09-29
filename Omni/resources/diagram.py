@@ -35,6 +35,7 @@ with Diagram("OmniOneDID", show=False):
             was_vm_2 = Custom("Was VM 2", "./icons/az_vm.png")
             was_vm_3 = Custom("Was VM 3", "./icons/az_vm.png")
             was_balancer = LoadBalancers("Was Balancer")
+            was_gateway = LocalNetworkGateways("WAS Gateway")
             web_vm >> Edge(color="orange") >> was_balancer
             was_balancer >> Edge(color="orange") >> was_vm_1
             was_balancer >> Edge(color="orange") >> was_vm_2
