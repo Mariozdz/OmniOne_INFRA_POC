@@ -6,6 +6,8 @@ Propuesta original basada en AWS cloud provider:
 
 Debido a la previa implementación de ejercicios en Azure, se decide realizar la conversión de la propuesta de infraestructura basada en AWS a Azure. Esto también con el fin de tener una vista comparativa entre la infraestructura y servicios disponibles entre los distintos proveedores de la nube.
 
+# Cambios sugeridos
+
 Entre los principales cambios que se proponen en relación a la seguridad, se encuentran:
 
 - Implementación de Application Gateway. Este elemento provee gestión de tráfico web en capa 7 que incluye WAF, TLS además de balanceo de tráfico basado en URL por lo que no está asociado únicamente a un BackEnd y puede ser reutilizado. En la figura adjunta se muestra su implementación en una subnet propia la cual no necesita mayor configuración en relación a NSG, ya que normalmente este se ajusta directamente en el Application Gateway hacia N backends.
@@ -17,5 +19,22 @@ Entre los principales cambios que se proponen en relación a la seguridad, se en
 - Implementación de Private Endpoint para conexión de servicios de Azure. Es básicamente un NIC privado que permite el tráfico interno de redes virtuales privadas a servicios externos que provee Azure sin necesidad de exponerse a conexión de internet, además de que permiten la configuración de reglas estrictas mediante NSG y firewall.
 
 - Eliminación de FrontDoor (cloudform en AWS). Esto debido a que se espera que los usuarios sean a nivel regional especifico, además de que el Application Gateway es capaz de proveer la mayoría de las funcionalidades de frontdoor, incluyendo protección contra ataques comunes, balanceo de carga, enrutamiento, función como private endpoint, SSL/TLS entre otros.
+
+#  Limitaciones en la implementación de Terraform
+
+- La estructura principal, excluyendo Entra o Azure B2C y el servicio de email, fueron probados exitosamente, hasta el punto de tener acceso administrativo por medio del Bastion para instalar Nginx y acceso por el Application Gateway como usuario normal hacia la página principal del Nginx a través de la IP pública.
+- FrontDoor: no implementado por dificultad técnica y cambios constantes en la documentación de Terraform, además de que se cree que no es necesario para esta implementación.
+- Communication service (email): No testeado.
+- Entra, Azure B2C: No testeado.
+
+
+# Código
+
+Por falta de tiempo y gran crecimiento del proyecto en medio de pruebas, no se implementaron los módulos. Sin embargo, esto es un pendiente necesario para la administración correcta de los recursos creados en Terraform.
+
+# Diagramas
+
+
+![Diagrama_with_diagrams](/Omni/resources/omnionedid.png)
 
 ![Diagrama](/Omni/resources/Diagrama.png)
