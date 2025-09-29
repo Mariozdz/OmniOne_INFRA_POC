@@ -8,4 +8,4 @@ Debido a la previa implementación de ejercicios en Azure, se decide realizar la
 
 Entre los principales cambios que se proponen en relación a la seguridad, se encuentran:
 
-![Diagrama](/Omni/resources/Diagrama.svg)
+![Diagrama](/Omni/resources/Diagrama.png)
